@@ -19,7 +19,7 @@ const TokeniseHome = () => {
                 <Navbar/>
                 <div className="main">
                     <h2>Legatree</h2>
-                    <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, beatae.</h1>
+                    <h1>tokenisez vos souvenirs</h1>
                 </div>
             </header>
         </div>

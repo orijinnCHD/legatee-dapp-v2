@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/Navbar';
 import SubNavbar from '../../components/subNavbar';
-import {setCollections,setTokens,setIsTokeniseHome} from '../../feature/pages.slice';
+import {setIsTokeniseHome} from '../../feature/pages.slice';
 import { useDispatch, useSelector } from "react-redux";
-import Collection from '../../components/Collection';
-import Token from './Token';
 import FormToken from './FormToken';
 
 const CreateToken = () => {

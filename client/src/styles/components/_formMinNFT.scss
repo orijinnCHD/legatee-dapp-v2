@@ -9,6 +9,7 @@
     border: 1px solid $black;
     width:40%;
     margin: 100px auto;
+    animation: transitionIn 0.75s;
 
     input[type=text]{
         width:80%;

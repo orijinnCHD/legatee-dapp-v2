@@ -13,8 +13,14 @@ const MetaverseHome = () => {
     },[isTokeniseHome])
 
     return (
-        <div>
-            <Navbar/>
+        <div className='metaverseHome'>
+            <header>
+                <Navbar/>
+                <div className="main">
+                    <h2>Legatree</h2>
+                    <h1>metaverse & marketplace</h1>
+                </div>
+            </header>
         </div>
     );
 };
