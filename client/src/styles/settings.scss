@@ -1,0 +1,157 @@
+@font-face {
+    font-family: "font-bold";
+    src: url(../assets/fonts/Roboto/Roboto-Bold.ttf);
+}
+@font-face {
+font-family: "font-semi-bold";
+src: url(../assets/fonts/hk-grotesk/HKGrotesk-Regular.otf);
+}
+
+@font-face {
+    font-family: "font-light";
+    src: url(../assets/fonts/Roboto/Roboto-Light.ttf);
+    }
+  
+$font-1: "font-bold", sans-serif;
+$font-2: "font-semi-bold", sans-serif;
+$font-3: "font-light", sans-serif;
+  
+$color-1: #546fe4;
+$color-2: #212040;
+$color-3: rgb(100, 100, 100);
+$black: #000000;
+$white: rgb(255, 255, 255);
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  
+}
+
+body {
+  background: $white;
+  color: $black;
+  font-family: $font-3;
+  animation: transitionIn 0.75s;
+}
+
+@keyframes transitionIn{
+
+    from{
+      opacity:0;
+      transform:translateY(-10px);
+    }
+  
+    to{
+      opacity:1;
+      transform:translateY(0);
+    }
+}
+
+
+
+li {
+  list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+h1,button{
+    font-family: $font-1;
+}
+
+h2,h3{
+    font-family: $font-2;
+}
+
+h2,h3,button{
+    color:$color-2;
+}
+
+h4,p{
+    font-family: $font-3;
+}
+
+button,input[type=submit]{
+    display: flex;
+    position:relative;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 3px 28px;
+    gap: 16px;
+    background: none;
+    width: 115px;
+    height: 46px;
+    //border:none;
+    transition: background-color 0.4s;
+    box-shadow: 0px 8px 24px rgba(149, 157, 165, 0.5);
+    
+    border-style:1px solid $color-2 ;
+    // background: #0069FF;
+    border-radius: 10px;
+}
+
+button:hover,input[type=submit]:hover{
+    cursor: pointer;
+    transform: scale(.95);
+    transition : ease-in 0.1s;
+    font-size: 0.9rem;
+}
+
+button:active,input[type=submit]:active {
+    font-size: 1rem;
+    transform: scale(.95);
+    //box-shadow: 0 3px 15px -2px;
+}
+
+input[type=text]{
+    width:90%;
+    padding:10px;
+    border:none;
+    border-bottom:1px solid black;
+    transition: background-color 0.4s;
+
+}
+
+input[type=text]:active{
+    width:90%;
+    padding:10px;
+    border:none;
+    border-bottom:1px solid black;
+}
+
+
+// button:after {
+//     content: "";
+//     background: #90EE90;
+//     display: block;
+//     position: absolute;
+//     padding-top: 300%;
+//     padding-left: 350%;
+//     margin-left: -20px!important;
+//     margin-top: -120%;
+//     opacity: 0;
+//     transition: all 0.8s
+// }
+  
+// button:active:after {
+//     padding: 0;
+//     margin: 0;
+//     opacity: 1;
+//     transition: 0s
+// }
+
+
+
+
+
+
+
+
+
+
+
+  

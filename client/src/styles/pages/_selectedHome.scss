@@ -1,0 +1,27 @@
+.selected-home{
+    
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 24px;
+    background:$white;
+    transition: background-color 0.4s;
+    box-shadow: 0px 8px 24px rgba(149, 157, 165, 0.5);
+    border-style:0.1px outset;
+    width: 80%;
+    margin:100px auto 0;
+    height: 519px;
+
+    border-radius: 0px;
+
+    .left-part{
+        width: 50%;
+
+    }
+    .right-part{
+        display:flex;
+        gap:20px;
+    }
+
+}

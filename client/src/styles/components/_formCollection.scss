@@ -1,0 +1,17 @@
+.formCollection{
+    //background:red;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: left;
+    padding:20px ;
+    height:500px;
+    border: 1px solid $black;
+    width:40%;
+    margin: 100px auto;
+
+    input[type=text]{
+        width:80%;
+    }
+
+}

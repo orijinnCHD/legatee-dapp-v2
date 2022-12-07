@@ -1,0 +1,20 @@
+.token{
+    width:240px;
+    height:400px;
+    border:1px solid blueviolet;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding:10px;
+    p{
+        width:80%;
+        background:red;
+    }
+    img{
+        height: 100px;
+        width: 160px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+}
