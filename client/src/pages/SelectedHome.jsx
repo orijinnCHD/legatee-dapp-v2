@@ -9,12 +9,11 @@ const SelectedHome = () => {
         <div className="selected-home">
 
             <div className="left-part">
-                <h4>legatree</h4>
-                <h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    Perferendis placeat quas vitae quasi alias ex, 
-                    repudiandae veniam quos consequuntur labore!
+                <h2>legatree </h2>
+                <h1>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iste, placeat.
                 </h1>
-                <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta, pariatur?</h3>
+                <h3>Equipe : person_1 , person_2, person_3 </h3>
+                <h4>MVP V1</h4>
             </div>
             <ul className="right-part">
 

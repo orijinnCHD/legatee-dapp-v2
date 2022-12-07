@@ -15,9 +15,13 @@
     animation: transitionIn 0.75s;
 
     border-radius: 0px;
+    padding:10px;
 
     .left-part{
         width: 50%;
+        display:flex;
+        flex-direction: column;
+        gap:10px;
 
     }
     .right-part{

@@ -42,7 +42,7 @@ const CreateToken = () => {
                 selectCollection != 0 ?
                 <FormToken/>//create
                 :
-                <></>
+                <h2> pas de collection </h2>
 
             }
             
