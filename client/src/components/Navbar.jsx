@@ -1,6 +1,8 @@
 import React, {useEffect} from 'react';
 import {useSelector } from "react-redux";
 import { NavLink } from 'react-router-dom';
+import ConnectWallet from './Provider/ConnectWallet';
+
 const Navbar = () => {
 
     const isTokeniseHome = useSelector((state)=> state.pages.isTokeniseHome);
@@ -34,7 +36,8 @@ const Navbar = () => {
                 :
                 metaverseNav
             }
-            <button>connection</button>
+            {/* //<button>connection</button> */}
+            <ConnectWallet/>
         </div>
         
     );
