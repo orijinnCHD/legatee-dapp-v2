@@ -1,9 +1,9 @@
 # License MIT
 
-By SolidityFrance (HELLO Chris) for Alyra final project.
+By SolidityFrance and orijinnCHD  for Alyra final project.
 
 # Metaverse Tutorial
-
+IN CONSTRUCT
 ## Technology Stack & Tools
 
 - Solidity (Writing Smart Contract)
