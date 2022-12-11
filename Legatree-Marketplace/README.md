@@ -1,7 +1,4 @@
-
-<p align="center" dir="auto">
- <a target="_blank" rel="noopener noreferrer" href="/orijinnCHD/legatee-dapp-v2/blob/Marketplace/Legatree-Marketplace/Marketplace/assets/logo02.png"><img src="/orijinnCHD/legatee-dapp-v2/raw/Marketplace/Legatree-Marketplace/Marketplace/assets/logo02.png" alt="Alt text logo" title="Logo" width="80px" height="80px" style="max-width: 100%;"></a>
-</p>
+                                              
 
 
 # Legatree Marketplace
