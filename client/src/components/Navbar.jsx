@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {useSelector } from "react-redux";
 import { NavLink } from 'react-router-dom';
 import ConnectWallet from './Provider/ConnectWallet';
+import Test from './Test';
 
 const Navbar = () => {
 
@@ -38,6 +39,7 @@ const Navbar = () => {
             }
             {/* //<button>connection</button> */}
             <ConnectWallet/>
+            {/* <Test/> */}
         </div>
         
     );

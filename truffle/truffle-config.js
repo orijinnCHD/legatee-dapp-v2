@@ -22,8 +22,9 @@
 // const mnemonic = process.env["MNEMONIC"];
 // const infuraProjectId = process.env["INFURA_PROJECT_ID"];
 
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
 
+const HDWalletProvider = require('@truffle/hdwallet-provider');
+require('dotenv').config();
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -47,6 +48,14 @@ module.exports = {
      host: "127.0.0.1",     // Localhost (default: none)
      port: 8545,            // Standard Ethereum port (default: none)
      network_id: "*",       // Any network (default: none)
+    },
+    matic: {
+      provider: () => new HDWalletProvider({mnemonic:{phrase:`${process.env.MNEMONIC}`}, // exemple de config :https://www.npmjs.com/package/@truffle/hdwallet-provider
+      providerOrUrl:`https://polygon-mumbai.g.alchemy.com/v2/${process.env.ALCHEMIST_ID}`}),
+      network_id: 80001,
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: true
     },
     //
     // An additional network, but with some advanced options…

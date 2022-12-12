@@ -29,5 +29,5 @@ export const collectionsSlice = createSlice({
     }
 });
 
-export const {setLegaCollections,setObjectCollections,setLegaCollectionsArtifact,setObjectCollectionsABI} = collectionsSlice.actions;
+export const {setLegaCollection,setObjectCollections,setLegaCollectionsArtifact,setObjectCollectionsABI} = collectionsSlice.actions;
 export default collectionsSlice.reducer;

@@ -6,103 +6,231 @@ import "../node_modules/@openzeppelin/contracts/token/ERC721/extensions/ERC721UR
 import "../node_modules/@openzeppelin/contracts/utils/Counters.sol";
 import "../node_modules/@openzeppelin/contracts/access/Ownable.sol";
 
-contract LegaCollection is ERC721URIStorage , Ownable {
+contract LegaCollection is ERC721URIStorage{
+
 
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    uint16 time;
-    uint16 constant private  totalSupply = 500;
+
+    uint16 constant private  _totalSupply = 100;
+    // uint256 private _cptDonator;
+    uint256 private _time;
     
-    address private legatee;
-    mapping( uint => address ) private donators;
-    uint256 private cptDonator;
+    address private _legatee;
+    address private _security;
+    address private _donator;
 
-    event NFTMinted(uint _id, address indexed _donator, string  _tokenURI, uint _timeStamp);
-    event TransferNewDonator(address _oldDonator, address _newDonator, uint _timeStamp);
-    event BatchTokenTransfered( address indexed _from, address indexed _to, uint16[] _tokenIds,  uint _timeStamp);
+    mapping(address => bool ) _whitelisters;
 
-    constructor( address _donator , address _legatee, string memory name_,string memory symbol_) ERC721 (name_, symbol_) Ownable()
-    {
-        cptDonator++;
-        donators[cptDonator] = _donator;
-        legatee = _legatee;
+    
+    event whitelisterRegistered(address indexed whitelister, bool isRegistered, uint timeStamp );
+    event whitelisterStatus(address indexed whitelister, bool _isWhitelisted, uint timeStamp );
+    event LegateeRegistered(address indexed legatee,uint timeStamp);
 
+
+    event DonatorRegistered( uint id, address indexed donatorRegistered, uint timeStamp );
+    event TokenMinted(uint id, address indexed donator, string  tokenURI, uint timeStamp);
+    event TransferNewDonator(address oldDonator, address _newDonator, uint _timeStamp);
+    event BatchTokenTransfered( address indexed from, address indexed to, uint16[] tokenIds,  uint timeStamp);
+    event PushDMS( bool isDeath,uint currentTime, uint endTime );
+
+    constructor(address security, address donator,address legatee, string memory name_,string memory symbol_) ERC721 (name_, symbol_){
+        
+        _donator = donator;
+        _whitelisters[donator] = true;
+        _whitelisters[_security] = true;
+        _security = security;
+        _legatee = legatee;
+
+        _aliveCountdown30Days();
+
+        emit whitelisterRegistered(donator,true, block.timestamp);
+        emit LegateeRegistered(legatee,block.timestamp);
+
+       // whitelisters[_security] = true;
+        //emit whitelisterRegistered(_security,true, block.timestamp);
     }
-   
-   modifier onlyDonator(){
-       require(msg.sender == donators[cptDonator], "you're not current donator" );
-       _;
-   }
 
-    function mint( string memory _tokenURI) external  onlyDonator returns (uint)  {
+    // modifier -----------------------------------
 
-        require(_tokenIds.current() <= totalSupply, "limit 500 files excedeed, create another collection" );
+    modifier onlyDonator(){
+        require(_donator == msg.sender , "only currentDonator can access this function");
+        _;
+    }
+
+    modifier onlyWhitelisters(address addr){
+        require(_whitelisters[addr], "only whitelister can access this function");
+        _;
+    }
+
+    //-----mint-------------------------
+
+    function mint( string memory _tokenURI) external onlyDonator  returns (uint)  {
+
+        require(_tokenIds.current() <= _totalSupply, "limit 100 files excedeed, create another collection" );
 
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
-        address donator = donators[cptDonator];
 
-        _safeMint(donator, newItemId);
+        _safeMint(msg.sender, newItemId);
         _setTokenURI(newItemId, _tokenURI);
 
-        emit NFTMinted( newItemId, donator, _tokenURI,  block.timestamp );
-
+        emit TokenMinted( newItemId, msg.sender, _tokenURI,  block.timestamp );
         return newItemId;
     }
 
 
+    // legatee -----------------------
+
     function setLegatee(address _addr )external onlyDonator {
-        legatee = _addr;
+        
+        //_setLegatee(_addr);
+        require( _addr != address(0), "you must set valid address for legatee");
+        _legatee = _addr;
+        emit LegateeRegistered(_addr, block.timestamp);
     }
 
     function getLegatee() external view onlyDonator returns (address) {
-        return legatee;
+        return _legatee;
+    }
+
+    // donator ---------------------------------------
+
+    function getDonator()external view onlyWhitelisters(msg.sender) returns(address){
+
+        return _donator;
+    }
+
+    // whitelisters -------------------------------
+
+    function getWhitelisters(address addr) external view onlyWhitelisters(addr) returns(bool){
+
+        return _whitelisters[addr];
+    }
+
+    function _revokeDonatorWhitelister() private {
+
+        require( _whitelisters[_donator] ,"whitelister is already revoked");
+        _whitelisters[_donator] = false;
+
+        emit whitelisterStatus( _donator, _whitelisters[_donator], block.timestamp );
+    }
+
+    //-- transfertFrom ---------------------------
+
+
+    function transferFrom(
+        address from,
+        address to,
+        uint256 tokenId
+    ) public override onlyDonator {
+        
+        super.transferFrom(from,to,tokenId);
+    }
+
+
+    function safeTransferFrom(
+        address from,
+        address to,
+        uint256 tokenId
+    ) public override onlyDonator {
+
+        super.safeTransferFrom(from, to, tokenId);
+    }
+
+
+    // batchTransferFrom -------------------------------------------
+
+    // function batchTransferFrom(address from,address to,uint16[] calldata ids) external onlyWhitelisters(msg.sender){
+
+    //     _batchTransferFrom( from, to,ids);
+        
+    // }
+
+    // function _batchTransferFrom(address from,address to,uint16[] calldata ids) private {
+
+    //     for(uint x = 0; x < ids.length; x++) 
+    //     {
+    //         safeTransferFrom(from,to,ids[x]);
+    //     }
+
+    //     emit BatchTokenTransfered( from, to, ids, block.timestamp);
+    // }
+
+
+
+    
+    // ApprovalAllForLegatee
+
+    function ApprovalAllForLegateeBySecurity()external {
+
+        require(_security == msg.sender , "exclusive function for security address");
+
+        _ApprovalAllForLegatee();
+    }
+
+    function ApprovalAllForLegateeByDonator() external onlyDonator{
+
+        _ApprovalAllForLegatee();
     } 
 
-    // safetransferForm
 
+    function _ApprovalAllForLegatee() private {
 
-    function transferAllForLegatee( /*uint16[] calldata _ids*/ ) external onlyDonator{
+        require(_legatee != address(0), "you're not have legatee address" );
+        require(_checkIsDeath(), "donator is always alive");
 
-         _transferAllForLegatee();
+        // transfer 
+
+        setApprovalForAll(_legatee,true);
+        _revokeDonatorWhitelister();
+
+        _whitelisters[_legatee]=true;
+        emit TransferNewDonator(_donator, _legatee, block.timestamp);
+        _donator=_legatee;
+    }
+
+    //------------------death man switch ---------------------------------------//
+
+    function _aliveCountdown30Days() private {
+        _time = block.timestamp + 30 days;
     }
 
 
-
-    function _transferAllForLegatee( /*uint16[] calldata _ids*/ ) private {
-
-        require(legatee != address(0), "you're not have legatee" );
-
-        setApprovalForAll(legatee,true);
-        address donator = donators[cptDonator];
-        // _batchTransferFrom(donator,legatee,_ids);
-
-        address newDonator = legatee;
-        cptDonator++;
-        donators[cptDonator]=legatee;
-        legatee = address(0);
-
-        emit TransferNewDonator(donator, newDonator, block.timestamp);
+    function donatorSendAliveSignal() external onlyDonator returns(bool){
+        return _checkIsDeath();
 
     }
 
 
-    function batchTransferFrom(address _from,address _to,uint16[] calldata _ids) external onlyDonator{
+    function _checkIsDeath() private returns(bool){
 
-        _batchTransferFrom( _from, _to,_ids);
+        bool _isDeath;
 
-        emit BatchTokenTransfered( _from, _to,_ids  ,block.timestamp);
-    }
-
-    function _batchTransferFrom(address _from,address _to,uint16[] calldata _ids) private {
-
-        for(uint x = 0; x < _ids.length; x++) {
-            //require(_isApprovedOrOwner(_msgSender(), _ids[x]), "ERC721: transfer caller is not owner nor approved");
-            safeTransferFrom(_from,_to,_ids[x]);
+        if(!_isTimeExpired()){
+            _aliveCountdown30Days();
+            _isDeath = false;
         }
-        emit BatchTokenTransfered( _from, _to, _ids, block.timestamp);
+        else
+            _isDeath =  true;
+
+        emit PushDMS( _isDeath,block.timestamp, _time );
+        return _isDeath;
     }
 
-   
+    function _isTimeExpired()private view returns(bool){
+
+        if(block.timestamp > _time )
+            return true;
+        else
+            return false;
+
+    }
+
+    function getTime()external view onlyDonator returns(uint){
+        return _time;
+    }
+
+
 }

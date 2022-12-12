@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Token = ({token,index}) => {
+const Token = ({collection,index}) => {
     return (
         <li className="token">
             <img src="" alt="" />
@@ -8,7 +8,7 @@ const Token = ({token,index}) => {
             <h4>name #</h4>
             <h5>{token.name}</h5>
             <h4>description</h4> */}
-            <p>{token.description}</p>
+            <p>{collection.description}</p>
 
         </li>
     );
