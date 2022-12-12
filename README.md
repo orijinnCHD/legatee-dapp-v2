@@ -1,6 +1,7 @@
 LegaTREE MVP
 créer par charles Duter et chris Hello
 
+# Legatree
 
 LegaTREE est un écosystème qui permet d’accéder  àun ensemble de services comprenant la transmission sécurisée et souveraine de ses données à ses
 proches, le recueil dans un espace mémoriel protégé, préservé et personnalisable, l’accès à desservices et des ressources pour aider à apprivoiser
