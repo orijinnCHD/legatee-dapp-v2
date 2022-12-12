@@ -1,3 +1,12 @@
+LegaTREE MVP
+créer par charles Duter et chris Hello
+
+
+LegaTREE est un écosystème qui permet d’accéder  àun ensemble de services comprenant la transmission sécurisée et souveraine de ses données à ses
+proches, le recueil dans un espace mémoriel protégé, préservé et personnalisable, l’accès à desservices et des ressources pour aider à apprivoiser
+la peine et transcender cette épreuve.
+
+
 # React Truffle Box
 
 This box comes with everything you need to start using Truffle to write, compile, test, and deploy smart contracts, and interact with them from a React app.
