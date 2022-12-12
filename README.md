@@ -1,6 +1,9 @@
 LegaTREE MVP
 créer par charles Duter et chris Hello
 
+![workflow v1](https://user-images.githubusercontent.com/93587059/207128267-bed17da8-dfe5-47f7-9fe5-166a018accfa.png)
+
+
 # LegaTREE
 
 LegaTREE est un écosystème qui permet d’accéder  àun ensemble de services comprenant la transmission sécurisée et souveraine de ses données à ses
