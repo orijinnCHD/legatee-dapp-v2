@@ -5,7 +5,7 @@ import myLegaCollection from '../../contracts/LegaCollection.json';
 //import myContractCollection from '../../contracts/LegaCollectionERC721.json';
 import { useDispatch, useSelector } from "react-redux";
 import {setAccount, setContract, setOwner, setChain} from '../../feature/providers.slice';
-import {setLegaCollectionsArtifact} from '../../feature/collections.slice';
+import {setLegaCollectionsArtifact,setLegaCollection} from '../../feature/collections.slice';
 
 
 const ProviderWeb3 = (props) => {
@@ -67,17 +67,25 @@ const ProviderWeb3 = (props) => {
         //console.log(web3);
         const id = await web3.eth.net.getId();
         // console.log(id);
-        // console.log(myContractFactory);
+        console.log(myContractFactory);
         const deployedNetwork = myContractFactory.networks[id];
-        console.log("deployedNetwork.address : " + deployedNetwork.address);
+        console.log(deployedNetwork);
         const contract =  new web3.eth.Contract(myContractFactory.abi,deployedNetwork.address);
-
+        
         const owner = await contract.methods.owner().call();
         console.log("owner " + owner);
         dispatch(setOwner(owner));
         dispatch(setContract(contract));
-        console.log(myLegaCollection);
+        //console.log(myLegaCollection);
+
+        dispatch(setLegaCollection(myLegaCollection));
         dispatch(setLegaCollectionsArtifact(myLegaCollection));
+        
+
+        // const deployedNetworkLega = myLegaCollection.networks[id];
+        // console.log(deployedNetworkLega);
+        // const lega = new web3.eth.Contract(myLegaCollection.abi,deployedNetworkLega.address);
+        // console.log(lega);
 
     }
 
@@ -93,7 +101,7 @@ const ProviderWeb3 = (props) => {
         };
     
         tryInit();
-    }, [createContract]);
+    }, []);
 
 
       

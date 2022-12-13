@@ -2,6 +2,7 @@
 // import "./App.css";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ProviderEthers from "./components/Provider/ProviderEthers";
 import Web3Provider from "./components/Provider/ProviderWeb3";
 import CreateCollectionMP from "./pages/Metaverse/CreateCollectionMP";
 import CreateNFT from "./pages/Metaverse/CreateNFT";
@@ -23,6 +24,7 @@ function App() {
     <div>
       {/* <SelectedHome/> */}
       {/* <Web3Provider/> */}
+      {/* <ProviderEthers/> */}
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SelectedHome />}/>

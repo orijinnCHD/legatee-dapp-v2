@@ -1,10 +1,12 @@
 import Web3 from "web3";
 import React, { useEffect, useState } from 'react';
 import {setCollections} from '../../feature/pages.slice';
-import {setLegaCollections,setLegaCollectionsArtifact} from '../../feature/collections.slice';
+import {setLegaCollection,setLegaCollectionsArtifact} from '../../feature/collections.slice';
 import { useDispatch, useSelector } from "react-redux";
+import useEth from "../../contexts/EthContext/useEth";
 
-import myLegaCollection from '../../contracts/LegaCollection.json';
+
+// import myLegaCollection from '../../contracts/LegaCollection.json';
 
 
 
@@ -18,16 +20,17 @@ const FormCollection = () => {
     const collections = useSelector((state)=> state.pages.collections);
 
     // web3
-    const factoryContract = useSelector((state)=> state.providers.contract);
     const donator = useSelector((state)=> state.providers.account);
     const owner = useSelector((state)=> state.providers.owner);
-    const web3 = useSelector((state)=> state.providers.web3);
+
+    const { state: { contract, accounts,web3 } } = useEth();
     
     // instance Collection
 
-    const legaCollection = useSelector((state)=> state.collections.legaCollections);
-    //const legaArtifact = useSelector((state)=> state.collections.legaCollectionArtifact);
+    //const legaCollection = useSelector((state)=> state.collections.legaCollections);
+    //let legaArtifact = useSelector((state)=> state.collections.legaCollectionArtifact);
 
+    const [collection ,setCollection] =useState([]);
 
     const dispatch = useDispatch();
 
@@ -43,6 +46,7 @@ const FormCollection = () => {
     }
 
     const submit=async(e)=>{
+
         e.preventDefault();
         if(name=== "" || description === "" || legataire == "" ){
             setMessage('you must write name AND description AND legataire');
@@ -54,51 +58,55 @@ const FormCollection = () => {
         const s = createSymbolAuto(name);
         setSymbol(s);
         setMessage('valider');
-        await createLegaCollection(name,symbol,legataire);
+        createLegaCollection(name,symbol,legataire);
     }
-
-    // useEffect(()=>{
-
-    //     // if(message !== "")
-    //     //     setTimeout(() => {
-    //     //         setMessage("");         
-    //     // }, 3000);
-        
-    //     //     console.log(collection);
-    //     console.log(collections);
-    //     console.log(message);
-
-    //     //console.log("abi" +legaArtifact.ABI );
-        
-    // },[message,collections,myLegaCollection])
-
 
     ///////implementation contract
 
     const createLegaCollection = async(name,symbol,legataire )=>{
 
         console.log("donator : " + donator);
-        console.log("legatee : " + legataire);
-        console.log("owner : " + owner);
-        console.log(myLegaCollection.networks);
-        console.log(web3);
 
         try{
+            
+           
+            // let address = await factoryContract.methods.createTokenCollection(
+            // legataire,
+            // name,
+            // symbol)
+            // .send({from:donator});
+            await contract.methods.createTokenCollection(legataire,
+                name,
+                symbol).send({ from: accounts[0]})
+                .then(async function(receipt){
+
+                    let address = await receipt.events.CollectionCreated.returnValues._collectionAddress;
+                    console.log(address);
+                    console.log(web3);
+
+                    const artifact = require("../../contracts/LegaCollection.json");
+
+                    const collection = new web3.eth.Contract(artifact.abi,address);
+                    setCollection(collection);// receipt can also be a new contract instance, when coming from a "contract.deploy({...}).send()"
+                    dispatch(setLegaCollection(collection));
+                    // const legatee = await collection.methods.getLegatee().call({from:accounts[0]});
+                    // console.log(legatee);
+                
+                });
+
+                
 
             
-            let address = await factoryContract.methods.createLegaCollection(donator,
-            legataire,
-            name,
-            symbol )
-            .call({from:donator});
-            
-            console.log("address : " + address);
+            // console.log(collection);
+            // const legatee = await collection.methods.name().call({from:accounts[0]});
 
-            let instance =  new web3.eth.Contract(myLegaCollection.abi,address);
-            console.log(instance);
+            //let contract = new web3.eth.Contract(JSON.parse(legaArtifact.abi),address);
+            // console.log(contract);
+                
+            
             
         }catch(err){
-            console.log(err);
+             console.log(err);
         }
                                                         
     }

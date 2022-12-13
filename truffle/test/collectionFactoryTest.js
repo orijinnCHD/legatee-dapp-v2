@@ -10,7 +10,8 @@ contract("CollectionFactory",accounts=>{
 
     const _owner=accounts[0];
     const _donator=accounts[1];
-    const _legatee=accounts[2];
+    const _legatee=accounts[2]; 
+    const _security=accounts[3]; 
 
     let factInstance;
     
@@ -37,30 +38,31 @@ contract("CollectionFactory",accounts=>{
 
             it("should CREATE legaCollection and RETURNS address Contract Collection",async()=>{
 
-                const addrCollection = factInstance.createLegaCollection.call(_donator,_legatee,"lega#1","lgt",{from:_owner});
+                const addrCollection = await factInstance.createTokenCollection(_legatee,"lega#1","lgt",{from:_owner});
                 assert(addrCollection !== '');
 
             })
 
             it("should CREATE legaCollection returns CONTRACTADDRESS and DEPLOYED this contract AND return NAME",async()=>{
 
-                const addrCollection = await factInstance.createLegaCollection.call(_donator,_legatee,"lega#1","lgt",{from:_donator});
-                //console.log(addrCollection);
+                const name = "lega#1";
 
-                const deployer = await LegaCollection.deployed({from:addrCollection});
-                //console.log(deployer)
-                const name = await deployer.name({from:_donator});
-                console.log(name)
-                // const legaCollection = new web3.eth.Contract(LegaCollection.abi,addrCollection);
-                // //console.log(await legaCollection.methods.owner().call());
-                // console.log(legaCollection);
-                // //await LegaCollection.methods.setLegatee(_legatee).send({from:_donator});
-                // const name = await LegaCollection.methods.name().call({from:_donator});
-                // console.log(name);
+                const addrCollection = await factInstance.createTokenCollection.call(_legatee,"lega#1","lgt",{from:_donator});
+                 console.log(addrCollection);
+                //const collection = await LegaCollection.deployed({from:addrCollection});
+                var MyContract =  new web3.eth.Contract(LegaCollection.abi,addrCollection);
+                console.log(MyContract);
+                // var naming = MyContract.name({from:_donator});
+                // //console.log(deployer)
+                 //const instance =  await LegaCollection.at(addrCollection);
+                 console.log(instance);
+                // const newName = instance.name.call({from:_donator});
                 
-
-
+                
             })
+
+
+
 
             
         })
